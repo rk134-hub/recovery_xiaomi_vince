@@ -36,3 +36,8 @@ PRODUCT_BRAND := xiaomi
 PRODUCT_MODEL := Xiaomi Redmi 5 Plus
 PRODUCT_MANUFACTURER := xiaomi
 PRODUCT_RELEASE_NAME := Xiaomi Redmi 5 Plus
+
+# Blacklist Properties
+PRODUCT_SYSTEM_PROPERTY_BLACKLIST += \
+    ro.build.date \
+    ro.build.date.utc
