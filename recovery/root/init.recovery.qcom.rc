@@ -40,10 +40,6 @@ on fs
     chmod 0777 /dev/qseecom
     chmod 0664 /dev/ion
     chown system system /dev/ion
-     # Androud 12 SD Card Hax
-    rm -rf /data/system/storage.xml
-    touch /data/system/storage.xml
-    chattr +I /data/system/storage.xml
 
 on property:ro.crypto.state=encrypted
     start sbinqseecomd
