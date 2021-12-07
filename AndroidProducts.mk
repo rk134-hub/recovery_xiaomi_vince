@@ -18,3 +18,8 @@
 
 PRODUCT_MAKEFILES := \
 	$(LOCAL_DIR)/omni_vince.mk
+
+COMMON_LUNCH_CHOICES := \
+    omni_vince-user \
+    omni_vince-userdebug \
+    omni_vince-eng
