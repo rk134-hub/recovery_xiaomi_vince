@@ -82,7 +82,6 @@ task:
       - cd /tmp
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
       - rclone copy ccache.tar.gz ccache:twrp -P
-      - echo " "
       - echo "============================"
       - echo "Build Uploaded Successfully!"
       - echo "============================"
