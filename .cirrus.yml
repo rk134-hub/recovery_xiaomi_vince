@@ -1,0 +1,88 @@
+env:
+    rcloneconfig: "ENCRYPTED[bed46674f32ce66a3487b0809e17f020b3c79af4573873f7b71aef9cc8a9f315942cc14ea1c26652db86e8580dde2b36]"
+    tokentl: "ENCRYPTED[8be074e0eb87581d90520dab481d7700d00d3c075bf463c880349b35adeda3488a9c0c8a6897bcdba67db6cb7524dd24]"
+    idtl: "ENCRYPTED[b79fc9b053374c981288804749d5fed14ca4b28c3bbd0f0c0ed0298d495af0013ff30329d29569e412da041c03c84531]"
+    MANIFEST: https://github.com/TeamWin/android_bootable_recovery.git
+    MANIFEST_BRANCH: android-9.0
+    DEVICE: vince
+    DT_LINK: https://github.com/rxhulkxnt44/recovery_xiaomi_vince.git
+    DT_PATH: device/xiaomi/vince
+    TARGET: recoveryimage
+    TZ: Asia/Kolkata
+
+task:
+  name: "Setting Up, Syncing, Building and Uploading..."
+  timeout_in: 60m  
+  container:
+      image: inok2341/anu:latest
+      cpu: 8
+      memory: 32G
+        
+  Build-Env-Setup_background_script:
+       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Setting up build environment."
+       - export DEBIAN_FRONTEND=noninteractive
+       - apt update
+       - apt install sudo
+       - mkdir -p ~/.config/rclone
+       - echo "$rcloneconfig" > ~/.config/rclone/rclone.conf
+       - DEBIAN_FRONTEND=noninteractive
+       - sudo apt install python3 -y
+       - sudo ln -sf /usr/bin/python3 /usr/bin/python
+       - git config --global user.name "rk134"
+       - git config --global user.email "rahul.kantrapally@gmail.com"
+       - mkdir -p /tmp/ccache
+       - rclone copy ccache:twrp/ccache.tar.gz /tmp -P
+       - cd /tmp
+       - time tar xf ccache.tar.gz
+       - cd /tmp
+  
+  Storage-Checker_background_script:
+      - df -h
+      - lsblk
+      - ls -l -a -h
+  
+  Sync_script:
+      - echo "============================"
+      - echo "Syncing The Sources..."
+      - echo "============================"
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Source is syncing! Please wait."
+      - dir
+      - cd /tmp && mkdir twrp
+      - cd /tmp/twrp
+      # DT
+      - repo init -u $MANIFEST -b $MANIFEST_BRANCH --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips
+      - repo sync -j8
+      - git clone $DT_LINK --depth=1 --single-branch $DT_PATH
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
+      - echo "============================"
+      - echo "Sync Completed!"
+      - echo "============================"
+
+  Build_script:
+      - echo "============================"
+      - echo "Starting the Build..."
+      - echo "============================"
+#      - ./collect.sh
+      - ./final.sh
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd /tmp/rom/out/target/product/*/*.zip) Completed!"
+      - echo "============================"
+      - echo "Build Completed!"
+      - echo "============================"
+
+  Upload_script:
+      - echo "============================"
+      - echo "Uploading the Build...."
+      - echo "============================"
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading Build $(cd /tmp/rom/out/target/product/*/*.zip)"
+      - rclone copy /tmp/rom/out/target/product/*/*.zip ccache:twrp -P
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd /tmp/rom/out/target/product/*/*.zip) Uploaded Successfully!"
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Download link https://retarded-sprout.axsp.workers.dev/vince/$(cd /tmp/rom/out/target/product/*/*.zip)"
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Compressing ccache"
+      - ./ziping.sh
+      - cd /tmp
+      - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Uploading ccache...."
+      - rclone copy ccache.tar.gz ccache:twrp -P
+      - echo " "
+      - echo "============================"
+      - echo "Build Uploaded Successfully!"
+      - echo "============================"
