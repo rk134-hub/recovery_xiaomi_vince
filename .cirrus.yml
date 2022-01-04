@@ -63,6 +63,7 @@ task:
       - echo "Starting the Build..."
       - echo "============================"
 #      - ./collect.sh
+      - chmod +x compile.sh && chmod +x zipper.sh
       - ./compile.sh
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Build $(cd /tmp/rom/out/target/product/*/*.zip) Completed!"
       - echo "============================"
