@@ -1,9 +1,9 @@
 env:
-    rcloneconfig: "ENCRYPTED[bed46674f32ce66a3487b0809e17f020b3c79af4573873f7b71aef9cc8a9f315942cc14ea1c26652db86e8580dde2b36]"
-    tokentl: "ENCRYPTED[8be074e0eb87581d90520dab481d7700d00d3c075bf463c880349b35adeda3488a9c0c8a6897bcdba67db6cb7524dd24]"
-    idtl: "ENCRYPTED[b79fc9b053374c981288804749d5fed14ca4b28c3bbd0f0c0ed0298d495af0013ff30329d29569e412da041c03c84531]"
-    MANIFEST: https://github.com/TeamWin/android_bootable_recovery.git
-    MANIFEST_BRANCH: android-9.0
+    rcloneconfig: "ENCRYPTED[034e13cc8143fcabee611477a5e8352667cbc75adfca6d506a2b7cbf9d1f52a0d26c3dd3e7494b3d12567ddce64c9219]"
+    tokentl: "ENCRYPTED[0a954bd80bc103bd3ecee6276c858326ce4b35ad5026aa148bed883404a599d12622d7e396a983f4d2ffeeb2cefb12a9]"
+    idtl: "ENCRYPTED[8f901a1ed19c398a0e5a7631bb2948448881d43310c736d677dfa69f2034524b19bade1b1f7d8e8ba677e847d0341d0d]"
+    MANIFEST: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_omni.git
+    MANIFEST_BRANCH: twrp-9.0
     DEVICE: vince
     DT_LINK: https://github.com/rxhulkxnt44/recovery_xiaomi_vince.git
     DT_PATH: device/xiaomi/vince
