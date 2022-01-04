@@ -7,6 +7,7 @@ env:
     DEVICE: vince
     DT_LINK: https://github.com/rxhulkxnt44/recovery_xiaomi_vince.git
     DT_PATH: device/xiaomi/vince
+    DT_BRANCH: twrp-9.0
     TARGET: recoveryimage
     TZ: Asia/Kolkata
 
@@ -52,7 +53,7 @@ task:
       # DT
       - repo init -u $MANIFEST -b $MANIFEST_BRANCH --depth=1 --groups=all,-notdefault,-device,-darwin,-x86,-mips
       - repo sync -j8
-      - git clone $DT_LINK --depth=1 --single-branch $DT_PATH
+      - git clone $DT_LINK --depth=1 -b $DT_BRANCH $DT_PATH
       - curl -s https://api.telegram.org/bot$tokentl/sendMessage -d chat_id=$idtl -d text="Sync Completed!"
       - echo "============================"
       - echo "Sync Completed!"
